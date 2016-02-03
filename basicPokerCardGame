@@ -1,0 +1,122 @@
+class Card:
+            #A card object with a suit and rank.
+            ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+            suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
+
+        def __init__(self, rank, suit):
+            #creates cared with rank and suit
+            self.rank = rank
+            self.suit = suit
+
+        def getRank(self):
+            #return rank of card
+            return self.rank
+
+        def getSuit(self):
+            #return suit of card
+            return self.suit
+
+        def __str__(self):
+            #Create dictionary for face cards
+            translate = {11:'Jack', 12:'Queen', 13:'King', 14: 'Ace'}
+            r = self.rank
+            #check for face card
+            if r in [11, 12, 13, 14]:
+                rank = translate[r]
+            else:
+                rank = str(r)
+            return self.rank + " of " + self.suit
+
+
+        def __lt__(self, other):
+            return( self.rank < other.getRank() )
+
+class Deck:
+    #deck of 52 cards
+
+        def __init__(self):
+
+            self._cards = []
+            #Add a single card for each suit and rank
+            for suit in Card.suits:
+                for rank in Card.ranks:
+                    c = Card(rank, suit)
+                    self.cards.append(c)
+
+
+        def shuffle(self):
+            #Shuffle the deck
+            random.shuffle(self.cards)
+
+        def deal(self):
+            #Deals top card from deck, None if deck is empty
+            if len(self) == 0:
+                return None
+            else:
+                #removes top card and deals it
+                return self.cards.pop()
+
+        def __len__(self):
+            #returns number of cards left in the deck
+            return len(self.cards)
+
+        def __str__(self):
+            result = ""
+            for c in self.cards:
+                result = result + str(c) + '\n'
+            return result
+
+class Hand:
+    #A hand is a list of 5 cards from Deck
+
+        def __init__(self, deck):
+            if ( len(deck) <5):
+                print ("Need more cards in the deck!")
+
+            self.cards = []
+            for i in range(5):
+                card = deck.deal()
+                self._cards.append(card)
+            self.ranks = [0] * 14
+            self.suits = [0] * 4
+            #the process hand is for me to define later to compare hands against each other
+            #self.processHand()
+            self.cards.sort(reverse = True)
+
+        def __str__(self):
+            result = ""
+            for card in self.cards:
+                result = result +str(card)+ '\n'
+            return result
+
+#def __processHand__(self):
+       # """
+       # Compare 2 cards i need to make it compare five cards
+       # """
+        # check the suits
+       # if self.suit > other.suit: return 1
+       # if self.suit < other.suit: return -1
+        # suits are the same... check ranks
+       # if self.rank > other.rank: return 1
+       # if self.rank < other.rank: return -1
+        # ranks are the same... it's a tie
+       # return 0
+
+
+#card1 = card(4," Clubs")
+#print(str(card1))
+
+#card2 = card(6," Diamonds")
+#print(str(card2))
+
+#card3 = card(9," Hearts")
+#print(str(card3))
+
+#card4 = card(9," Clubs")
+#print(str(card4))
+
+#card5 = card(10," Spades")
+#print(str(card5))
+
+#hand = [card1, card2, card3, card4, card5]
+#print(hand)
